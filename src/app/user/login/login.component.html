@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>User Login</title>
+    <!-- Mobile Specific Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+</head>
+
+<body class="form-v4">
+    <div class="page-content">
+        <div class="form-v4-content">
+            <div class="form-left">
+                <h2>INFORMATION</h2>
+                <p class="text-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Et molestie ac feugiat sed. Diam volutpat commodo.</p>
+                <p class="text-2"><span>Eu ultrices:</span> Vitae auctor eu augue ut. Malesuada nunc vel risus commodo viverra. Praesent elementum facilisis leo vel.</p>
+                <div class="form-left-last">
+                    <input type="button" name="account" (click)="UserSignUp('user-signup')" class="account" value="Haven't An Account">
+                </div>
+            </div>
+            <form class="form-detail" #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" >
+                <h2><span style="color: orangered">USER</span> LOGIN FORM</h2>
+              <div *ngIf="loading" class="alert alert-danger" role="alert">
+                Login Success!!
+              </div>
+              <div class="alert alert-danger "  *ngIf="error"  role="alert">
+                Logging Failed!!  <span style="font-weight: bold">{{ error }}</span>
+              </div>
+                <div class="form-row">
+                    <label for="your_email">Your Email</label>
+                    <input type="text" ngModel name="email" required email id="email" (input)="emailInput($event)" class="input-text" required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}">
+                    <small *ngIf="emailIsEmpty == ''" class="text-danger"><strong>Email Should not be empty</strong></small>
+                </div>
+                <div class="form-row">
+                    <label for="password">Password</label>
+                    <input type="password" ngModel name="password" required minlength="6" (input)="passwordInput($event)"  id="password" class="input-text" >
+                    <small class="font-italic" *ngIf="passwordIsEmpty == ''" class="text-danger"><strong>Password Should not be empty</strong></small>
+                </div>
+
+
+                <div class="form-row-last">
+                    <button type="submit"  [disabled]="loading || !authForm.valid" class="btn btn-primary btn-lg btn-block">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          LOGIN</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>

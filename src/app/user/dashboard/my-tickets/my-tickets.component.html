@@ -1,0 +1,201 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Flight Reservation
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <!-- CSS Files -->
+
+</head>
+
+<body class="">
+<div class="wrapper ">
+  <div class="sidebar" data-color="purple" data-background-color="white" >
+
+    <div class="logo"><a href="" class="simple-text logo-normal">
+      {{ user}}
+    </a></div>
+    <div class="sidebar-wrapper">
+      <ul class="nav">
+        <li class="nav-item ">
+          <a (click)="myRoute('user-dashboard')" class="nav-link" >
+            <i class="material-icons">dashboard</i>
+            <p>Dashboard</p>
+          </a>
+        </li>
+        <li class="nav-item ">
+          <a (click)="myRoute('user-profile')"  class="nav-link" >
+            <i class="material-icons">person</i>
+            <p>User Profile</p>
+          </a>
+        </li>
+        <li class="nav-item  active">
+          <a class="nav-link" >
+            <i class="material-icons">content_paste</i>
+            <p>My Tickets</p>
+          </a>
+        </li>
+        <li class="nav-item  ">
+          <a class="nav-link" (click)="myRoute('search-flight')" >
+            <i class="material-icons">library_books</i>
+            <p>Search Flight</p>
+          </a>
+        </li>
+
+
+
+        <li class="nav-item active-pro ">
+          <a class="nav-link" (click)="onLogout()" >
+            <i class="material-icons">unarchive</i>
+            <p>LOGOUT</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="main-panel">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+      <div class="container-fluid">
+        <div class="navbar-wrapper">
+          <a class="navbar-brand" href="javascript:;">My Flight Tickets</a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon icon-bar"></span>
+          <span class="navbar-toggler-icon icon-bar"></span>
+          <span class="navbar-toggler-icon icon-bar"></span>
+        </button>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header card-header-primary">
+                <h4 class="card-title ">My Tickets</h4>
+                <p class="card-category">View And Cancel Your Flight Tickets</p>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-primary">
+                    <th>
+                      Flight Number
+
+                    </th>
+                    <th>
+                      Flight Name
+                    </th>
+                    <th>
+                      Date
+                    </th>
+                    <th>
+                      Depart Location
+                    </th>
+                    <th>
+                      Arrival Location
+                    </th>
+                    <th>
+                      Depart Time
+                    </th>
+                    <th>
+                      Estimate Arrive
+                    </th>
+                    <th>
+                      Booking Status
+                    </th>
+                    <th>
+                      Ticket Price
+                    </th>
+                    <th>
+                      Payment Status
+                    </th>
+                    <th>
+                      Cancel
+                    </th>
+                    <th>
+                      Make Payment
+                    </th>
+                    </thead>
+                    <tbody>
+                    <tr  *ngFor="let ticket of bookings">
+                      <td>
+                        {{ticket.flightNumber}}
+                      </td>
+                      <td>
+                        {{ticket.FlightName}}
+                      </td>
+                      <td>
+                        {{ticket.date}}
+                      </td>
+                      <td>
+                        {{ticket.departLocation}}
+                      </td>
+                      <td>
+                        {{ticket.arrivelLocation}}
+                      </td>
+                      <td>
+                        {{ticket.departTime}}
+                      </td>
+                      <td>
+                        {{ticket.arriveTime}}
+                      </td>
+                      <td>
+                        {{ticket.status}}
+                      </td>
+                      <td>
+                        {{ticket.price}}
+                      </td>
+                      <td>
+                        {{ticket.payment}}
+                      </td>
+                      <td>
+                        <form #cancelForm="ngForm" (ngSubmit)="cancelBook(cancelForm)">
+
+                          <input type="hidden" ngModel="{{ ticket._id}}"  name="id" value="{{ ticket._id}}" >
+                          <input type="hidden" *ngIf="ticket.status == 'live'" ngModel="Canceled"  name="state" value="Canceled" >
+                          <input type="hidden" *ngIf="ticket.status == 'Canceled'" ngModel="live"  name="state" value="live" >
+                          <button *ngIf="ticket.status == 'live'"  type="submit" class="btn btn-warning btn-round">Cancel Flight</button>
+                          <button *ngIf="ticket.status == 'Canceled'"  type="submit" class="btn btn-success btn-round">Rebook Flight</button>
+                          <button *ngIf="ticket.status == 'Canceled By Staff'" disabled type="submit" class="btn btn-danger btn-round">Canceled</button>
+                        </form>
+                      </td>
+                      <td>
+                        <form #payForm="ngForm" (ngSubmit)="addPayment(payForm)">
+
+                          <input type="hidden" ngModel="{{ ticket._id}}"  name="id" value="{{ ticket._id}}" >
+                          <input type="hidden" ngModel="{{ ticket.price}}"  name="price" value="{{ ticket.price}}" >
+                          <button  [disabled]="ticket.payment == 'paid' || ticket.status == 'Canceled By Staff' || ticket.status == 'Canceled'" type="submit" class="btn btn-success btn-round">Make Payment</button>
+                        </form>
+                      </td>
+                    </tr>
+
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
+

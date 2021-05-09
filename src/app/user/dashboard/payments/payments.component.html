@@ -1,0 +1,21 @@
+<div class="card col-md-6 offset-3" style="margin-top: 100px">
+  <div class="card-body">
+    <div *ngIf="!paidFor">
+
+      <p>Make your Payment </p>
+
+
+
+    </div>
+
+    <div *ngIf=paidFor>
+      <h1>Pay For the Flight ticket</h1>
+
+    </div>
+
+
+    <div [hidden]="paidFor" #paypal></div>
+  </div>
+</div>
+
+

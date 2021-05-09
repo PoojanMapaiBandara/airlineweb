@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Sign Up</title>
+  <!-- Mobile Specific Metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+</head>
+<body class="form-v4">
+<div class="page-content">
+  <div class="form-v4-content">
+    <div class="form-left">
+      <h2>INFOMATION</h2>
+      <p class="text-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Et molestie ac feugiat sed. Diam volutpat commodo.</p>
+      <p class="text-2"><span>Eu ultrices:</span> Vitae auctor eu augue ut. Malesuada nunc vel risus commodo viverra. Praesent elementum facilisis leo vel.</p>
+      <div class="form-left-last">
+        <input type="button" name="account" (click)="myRouter('StaffLogin')"  class="account" value="Have An Account">
+      </div>
+    </div>
+    <form class="form-detail" #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" id="myform">
+      <h2>STAFF REGISTER FORM</h2>
+      <div class="alert alert-danger "  *ngIf="error"  role="alert">
+        <p>{{ error }}</p>
+      </div>
+      <div class="form-group">
+        <div class="form-row form-row-1">
+          <label for="first_name"> Name</label>
+          <input type="text"ngModel name="name" required minlength="4"   id="first_name" class="input-text">
+        </div>
+        <div class="form-row form-row-1">
+          <label for="designation">Designation</label>
+          <input type="text" ngModel name="designation" required minlength="2"  name="designation" id="designation" class="input-text">
+        </div>
+      </div>
+      <div class="form-row">
+        <label for="your_email">Your Email</label>
+        <input type="text" ngModel name="email" required email class="input-text" required pattern="[^@]+@[^@]+.[a-zA-Z]{2,6}">
+      </div>
+      <div class="form-row">
+        <label for="epfNumber">EPF Number</label>
+        <input type="number" ngModel name="epfNumber" required minlength="4"  id="epfNumber" class="input-text" required >
+      </div>
+      <div class="form-group">
+        <div class="form-row form-row-1 ">
+          <label for="password">Password</label>
+          <input type="password" ngModel name="password" required minlength="8" id="password" (input)="passwordInput($event)" class="input-text" required>
+          <small *ngIf="password == ''" class="text-danger"><strong>Password Should not be empty</strong></small>
+        </div>
+        <div class="form-row form-row-1">
+          <label for="comfirm-password">Comfirm Password</label>
+          <input type="password" name="comfirm_password" id="comfirm_password" (input)="passwordRetype($event)" class="input-text" required>
+          <small *ngIf="password != confirmPw" class="text-danger"><strong>Passwords doesnt Match!!!</strong></small>
+        </div>
+      </div>
+
+      <div class="form-row-last">
+        <button type="submit"  [disabled]="loading || !authForm.valid || password != confirmPw"  class="btn btn-primary btn-lg btn-block">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          REGISTER</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

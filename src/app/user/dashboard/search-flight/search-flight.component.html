@@ -1,0 +1,203 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Flight Reservation
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <!-- CSS Files -->
+
+</head>
+
+<body class="">
+<div class="wrapper ">
+  <div class="sidebar" data-color="purple" data-background-color="white" >
+
+    <div class="logo"><a href="" class="simple-text logo-normal">
+     {{ user}}
+    </a></div>
+    <div class="sidebar-wrapper">
+      <ul class="nav">
+        <li class="nav-item ">
+          <a (click)="myRoute('user-dashboard')" class="nav-link" >
+            <i class="material-icons">dashboard</i>
+            <p>Dashboard</p>
+          </a>
+        </li>
+        <li class="nav-item ">
+          <a (click)="myRoute('user-profile')"  class="nav-link" >
+            <i class="material-icons">person</i>
+            <p>User Profile</p>
+          </a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" (click)="myRoute('user-tickets')" >
+            <i class="material-icons">content_paste</i>
+            <p>My Tickets</p>
+          </a>
+        </li>
+        <li class="nav-item   active">
+          <a class="nav-link" >
+            <i class="material-icons">library_books</i>
+            <p>Search Flight</p>
+          </a>
+        </li>
+
+
+
+        <li class="nav-item active-pro ">
+          <a class="nav-link" (click)="onLogout()" >
+            <i class="material-icons">unarchive</i>
+            <p>LOGOUT</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="main-panel">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+      <div class="container-fluid">
+        <div class="navbar-wrapper">
+          <a class="navbar-brand" href="javascript:;">Search Flight</a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon icon-bar"></span>
+          <span class="navbar-toggler-icon icon-bar"></span>
+          <span class="navbar-toggler-icon icon-bar"></span>
+        </button>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+
+
+    <div class="content">
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+          <form class="card card-sm" #searchForm="ngForm" (ngSubmit)="searchFlight(searchForm)" >
+            <div class="card-body row no-gutters align-items-center">
+
+              <!--end of col-->
+              <div class="col">
+                <input class="form-control form-control-lg form-control-borderless" ngModel name="fNum" required minlength="2" type="search" placeholder="Search Flights Through Flight Number">
+              </div>
+              <!--end of col-->
+              <div class="col-auto">
+                <button class="btn btn-lg btn-success"  [disabled]="loading || !searchForm.valid"  type="submit"> <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>Search</button>
+              </div>
+              <!--end of col-->
+            </div>
+          </form>
+        </div>
+        <!--end of col-->
+      </div>
+      <div class="alert alert-danger col-lg-6 offset-3"  *ngIf="error"  role="alert">
+        <span style="font-weight: bold">{{ error }}</span>
+      </div>
+      <div class="container-fluid">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header card-header-primary">
+                <h4 class="card-title ">Flights</h4>
+                <p class="card-category">Here is Flight Details</p>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-primary">
+                    <th>
+                      Flight Number
+
+                    </th>
+                    <th>
+                      Flight Name
+                    </th>
+                    <th>
+                      Date
+                    </th>
+                    <th>
+                      Depart Location
+                    </th>
+                    <th>
+                      Arrival Location
+                    </th>
+                    <th>
+                      Depart Time
+                    </th>
+                    <th>
+                      Estimate Time
+                    </th>
+                    <th>
+                      Book
+                    </th>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let flight of flights">
+                      <td>
+                        {{ flight.flightNumber}}
+                      </td>
+                      <td>
+                        {{ flight.FlightName }}
+                      </td>
+                      <td>
+                        {{ flight.date}}
+                      </td>
+                      <td>
+                        {{ flight.departLocation}}
+                      </td>
+                      <td>
+                        {{ flight.arrivelLocation}}
+                      </td>
+                      <td>
+                        {{ flight.departTime}}
+                      </td>
+                      <td>
+                        {{ flight.arriveTime}}
+                      </td>
+                      <td>
+                        {{ flight.price}}
+                      </td>
+                      <td>
+                        <form #bookForm="ngForm" (ngSubmit)="onBook(bookForm)">
+                          <input type="hidden" ngModel="{{ flight.flightNumber}}" name="fNumber"  >
+                          <input type="hidden" ngModel="{{ flight.FlightName}}" name="fName" value="{{ flight.FlightName}}" >
+                          <input type="hidden" ngModel="{{ flight.date}}" name="fDate" value="{{ flight.date}}" >
+                          <input type="hidden" ngModel="{{ flight.departLocation}}" name="fDLocation" value="{{ flight.departLocation}}" >
+                          <input type="hidden" ngModel="{{ flight.arrivelLocation}}"  name="fALocation" value="{{ flight.arrivelLocation}}">
+                          <input type="hidden" ngModel="{{ flight.departTime}}" name="fDTime" value="{{ flight.departTime}}" >
+                          <input type="hidden" ngModel="{{ flight.arriveTime}}"  name="fATime" value="{{ flight.arriveTime}}" >
+                          <input type="hidden" ngModel="{{ flight.price}}"  name="price" value="{{ flight.price}}" >
+                          <input type="hidden" ngModel="{{ email }}" name="uEmail" value="{{ email }}" >
+                          <input type="hidden" ngModel="{{ user }}"  name="uName" value="{{ user }}" >
+                          <button   type="submit" class="btn btn-primary btn-round">Book Flight</button>
+                        </form>
+                      </td>
+                    </tr>
+
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>

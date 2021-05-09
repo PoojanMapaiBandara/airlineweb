@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Flight Reservation
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <!-- CSS Files -->
+
+</head>
+
+<body class="">
+<div class="wrapper ">
+  <div class="sidebar" data-color="purple" data-background-color="white" >
+
+    <div class="logo"><a class="simple-text logo-normal">
+      {{ admin }}
+    </a></div>
+    <div class="sidebar-wrapper">
+      <ul class="nav">
+        <li class="nav-item   ">
+          <a class="nav-link" (click)="myRoute('admin-view-flight')" >
+            <i class="material-icons">dashboard</i>
+            <p>Dashboard</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a  class="nav-link" (click)="myRoute('admin-view-customers')" >
+            <i class="material-icons">person</i>
+            <p>Customers</p>
+          </a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" (click)="myRoute('admin-view-bookings')">
+            <i class="material-icons">content_paste</i>
+            <p>Customer Bookings</p>
+          </a>
+        </li>
+        <li class="nav-item  active">
+          <a class="nav-link" (click)="myRoute('admin-view-staff')">
+            <i class="material-icons">peoples</i>
+            <p>Staff Members</p>
+          </a>
+        </li>
+
+
+
+
+        <li class="nav-item active-pro ">
+          <a class="nav-link"  (click)="onLogout()">
+            <i class="material-icons">unarchive</i>
+            <p>LOGOUT</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="main-panel">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+      <div class="container-fluid">
+        <div class="navbar-wrapper">
+          <a class="navbar-brand" href="javascript:;">Flight Details</a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon icon-bar"></span>
+          <span class="navbar-toggler-icon icon-bar"></span>
+          <span class="navbar-toggler-icon icon-bar"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end">
+          <div class="alert alert-danger" role="alert">
+            <b>You are in Admin Dashboard</b>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="content">
+      <div class="alert alert-success col-md-3" *ngIf="message != ''" role="alert">
+        {{ message }}
+      </div>
+      <div class="alert alert-danger col-md-3" *ngIf="error" role="alert">
+        {{ error }}
+      </div>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="card">
+              <div class="card-header card-header-primary">
+                <h4 class="card-title">Update Flight</h4>
+                <p class="card-category">Update Flight Details</p>
+              </div>
+
+              <div class="card-body" *ngFor="let st of staff">
+                <form  #updateForm="ngForm" (ngSubmit)="onUpdate(updateForm)" >
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">Name</label>
+                        <input type="text" ngModel="{{st.name}}" name="name" minlength="4" class="form-control" value="{{st.name}}">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">Phone</label>
+                        <input type="text" ngModel="{{st.phone}}" name="phone"  minlength="10"  class="form-control" value="{{st.phone}}">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">EPF Number</label>
+                        <input type="number" ngModel="{{st.epfNumber}}" name="epf"  required class="form-control" value="{{ st.epfNumber }}" >
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">Designation</label>
+                        <input type="text" ngModel="{{st.designation}}" name="des"  required class="form-control" value="{{st.designation}}" >
+                        <input type="hidden" ngModel="{{st._id}}" name="id"  required class="form-control" value="{{st._id}}" >
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">Password</label>
+                        <input type="text" ngModel name="pass" minlength="8" required class="form-control"  >
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 offset-6 col-sm-4 offset-0">
+                    <div class="form-group">
+                      <button type="submit"  [disabled]="loading || !updateForm.valid" class="btn btn-primary pull-right"><span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>Update Flight</button>
+                    </div>
+                  </div>
+
+
+                  <div class="clearfix"></div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+
+</html>
+

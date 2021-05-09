@@ -1,0 +1,182 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>
+    Customers
+  </title>
+  <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+  <!-- CSS Files -->
+
+</head>
+
+<body class="">
+<div class="wrapper ">
+  <div class="sidebar" data-color="purple" data-background-color="white" >
+
+    <div class="logo"><a class="simple-text logo-normal">
+      {{ staff }}
+    </a></div>
+    <div class="sidebar-wrapper">
+      <ul class="nav">
+        <li class="nav-item   ">
+          <a class="nav-link" (click)="myRoute('staff-dashboard')" >
+            <i class="material-icons">dashboard</i>
+            <p>Dashboard</p>
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a  class="nav-link" (click)="myRoute('staff-view-customers')" >
+            <i class="material-icons">person</i>
+            <p>Customers</p>
+          </a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" (click)="myRoute('staff-view-customer-bookings')">
+            <i class="material-icons">content_paste</i>
+            <p>Customer Bookings</p>
+          </a>
+        </li>
+
+
+
+
+        <li class="nav-item active-pro ">
+          <a class="nav-link"  (click)="onLogout()">
+            <i class="material-icons">unarchive</i>
+            <p>LOGOUT</p>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="main-panel">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+      <div class="container-fluid">
+        <div class="navbar-wrapper">
+          <a class="navbar-brand" href="javascript:;"> Customer Details</a>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="navbar-toggler-icon icon-bar"></span>
+          <span class="navbar-toggler-icon icon-bar"></span>
+          <span class="navbar-toggler-icon icon-bar"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end">
+          <div class="alert alert-success" role="alert">
+            <b>You are in Staff Dashboard</b>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header card-header-warning">
+                <h4 class="card-title ">Customer</h4>
+                <p class="card-category">Here is Customer Booking Details</p>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-warning">
+                    <th>
+                      Flight Number
+                    </th>
+                    <th>
+                      Flight Name
+                    </th>
+                    <th>
+                      Date
+                    </th>
+                    <th>
+                      Depart Location
+                    </th>
+                    <th>
+                      Arrival Location
+                    </th>
+                    <th>
+                      Depart Time
+                    </th>
+                    <th>
+                      Estimate Arrival
+                    </th>
+                    <th>
+                      Payment Details
+                    </th>
+                    <th>
+                      Booking Date
+                    </th>
+                    <th>
+                      Delete Booking
+                    </th>
+
+                    </thead>
+                    <tbody>
+                    <tr  *ngFor="let ticket of bookings ">
+
+                      <td>
+                        {{ticket.flightNumber}}
+                      </td>
+                      <td>
+                        {{ticket.FlightName}}
+                      </td>
+                      <td>
+                        {{ticket.date}}
+                      </td>
+                      <td>
+                        {{ticket.departLocation}}
+                      </td>
+                      <td>
+                        {{ticket.arrivelLocation}}
+                      </td>
+                      <td>
+                        {{ticket.departTime}}
+                      </td>
+                      <td>
+                        {{ticket.arriveTime}}
+                      </td>
+                      <td>
+                        {{ticket.payment}}
+                      </td>
+                      <td>
+                        {{ticket.bookDate}}
+                      </td>
+                      <td>
+                        <form #cancelForm="ngForm" (ngSubmit)="onCancel(cancelForm)">
+
+                          <input type="hidden" ngModel="{{ ticket._id}}"  name="id" value="{{ ticket._id}}" >
+                          <input type="hidden"  ngModel="Canceled By Staff"  name="state" value="Canceled By Staff">
+                          <button   type="submit" [disabled]="ticket.status == 'Canceled' || ticket.status == 'Canceled By Staff' || ticket.payment == 'paid'" class="btn btn-warning btn-round"><span *ngIf="ticket.status == 'live' && ticket.payment != 'paid'">Cancel Flight</span>
+                            <span *ngIf="ticket.status == 'Canceled' || ticket.status == 'Canceled By Staff' && ticket.payment != 'paid'">Canceled</span> <span *ngIf=" ticket.payment == 'paid'"> Paid Ticket</span></button>
+                        </form>
+                      </td>
+                    </tr>
+                    </tbody>
+
+                  </table>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+
+</html>
+
